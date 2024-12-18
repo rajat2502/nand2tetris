@@ -1,0 +1,57 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux8Way.hdl
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    //// Replace this comment with your code.
+    Not(in=sel[0], out=notSel0);
+    Not(in=sel[1], out=notSel1);
+    Not(in=sel[2], out=notSel2);
+
+    And(a=notSel0, b=notSel1, out=outAnda1);
+    And(a=outAnda1, b=notSel2, out=outAnda);
+    And(a=in, b=outAnda, out=a);
+
+    And(a=sel[0], b=notSel1, out=outAndb1);
+    And(a=outAndb1, b=notSel2, out=outAndb);
+    And(a=in, b=outAndb, out=b);
+
+    And(a=notSel0, b=sel[1], out=outAndc1);
+    And(a=outAndc1, b=notSel2, out=outAndc);
+    And(a=in, b=outAndc, out=c);
+
+    And(a=sel[0], b=sel[1], out=outAndd1);
+    And(a=outAndd1, b=notSel2, out=outAndd);
+    And(a=in, b=outAndd, out=d);
+
+    And(a=notSel0, b=notSel1, out=outAnde1);
+    And(a=outAnde1, b=sel[2], out=outAnde);
+    And(a=in, b=outAnde, out=e);
+
+    And(a=sel[0], b=notSel1, out=outAndf1);
+    And(a=outAndf1, b=sel[2], out=outAndf);
+    And(a=in, b=outAndf, out=f);
+
+    And(a=notSel0, b=sel[1], out=outAndg1);
+    And(a=outAndg1, b=sel[2], out=outAndg);
+    And(a=in, b=outAndg, out=g);
+
+    And(a=sel[0], b=sel[1], out=outAndh1);
+    And(a=outAndh1, b=sel[2], out=outAndh);
+    And(a=in, b=outAndh, out=h);
+}
